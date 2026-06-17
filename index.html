@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSZN-8060 的炫酷主页</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            overflow-x: hidden;
+        }
+        .stars {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .star {
+            position: absolute;
+            width: 2px; height: 2px;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle 2s ease-in-out infinite alternate;
+        }
+        @keyframes twinkle {
+            0% { opacity: 0.2; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1.5); }
+        }
+        .container {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 40px;
+        }
+        .avatar {
+            width: 120px; height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #f093fb, #f5576c);
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: bold;
+            box-shadow: 0 0 60px rgba(245,87,108,0.4);
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        h1 {
+            font-size: 48px;
+            background: linear-gradient(90deg, #f093fb, #f5576c, #4facfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        .subtitle {
+            font-size: 18px;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 40px;
+        }
+        .typing {
+            font-size: 16px;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 40px;
+            min-height: 24px;
+        }
+        .typing::after {
+            content: '|';
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+        .cards {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+        .card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 30px;
+            width: 200px;
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: rgba(255,255,255,0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        .card-icon {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+        .card h3 {
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+        .card p {
+            font-size: 13px;
+            color: rgba(255,255,255,0.6);
+        }
+        .btn {
+            display: inline-block;
+            padding: 14px 40px;
+            background: linear-gradient(45deg, #f093fb, #f5576c);
+            border: none;
+            border-radius: 50px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(245,87,108,0.4);
+        }
+        .footer {
+            margin-top: 40px;
+            font-size: 13px;
+            color: rgba(255,255,255,0.3);
+        }
+        .counter {
+            position: fixed;
+            top: 20px;
+            right: 30px;
+            font-size: 14px;
+            color: rgba(255,255,255,0.2);
+            z-index: 1;
+        }
+        @media (max-width: 600px) {
+            h1 { font-size: 32px; }
+            .card { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <div class="counter">✨ 已加载: <span id="loadTime">0</span>ms</div>
+    <div class="container">
+        <div class="avatar">S</div>
+        <h1>SSZN-8060</h1>
+        <p class="subtitle">🚀 跟着 Claude 学 Git 的练习仓库</p>
+        <div class="typing" id="typing"></div>
+        <div class="cards">
+            <div class="card">
+                <div class="card-icon">🐙</div>
+                <h3>GitHub 入门</h3>
+                <p>从零开始学版本控制，这是第一步</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">⚡</div>
+                <h3>AI 驱动</h3>
+                <p>用 Claude 帮我写代码、建仓库</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🎨</div>
+                <h3>炫酷 UI</h3>
+                <p>谁说练习仓库不能好看？</p>
+            </div>
+        </div>
+        <a class="btn" href="https://github.com/SSZN-8060" target="_blank">🌟 去 GitHub 主页</a>
+        <div class="footer">Made with ❤️ by Claude & SSZN-8060</div>
+    </div>
+    <script>
+        // 生成星星
+        for (let i = 0; i < 200; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            star.style.width = star.style.height = Math.random() * 3 + 1 + 'px';
+            document.getElementById('stars').appendChild(star);
+        }
+        // 打字效果
+        const texts = [
+            '🌙 这是我的第一个 GitHub 仓库',
+            '💡 跟着 Claude 学 Git 好轻松',
+            '🔥 这个页面是 AI 写出来的',
+            '⭐ 欢迎给我点个 Star ~',
+        ];
+        let i = 0, j = 0, isDeleting = false;
+        const el = document.getElementById('typing');
+        function typeEffect() {
+            const current = texts[i];
+            if (!isDeleting) {
+                el.textContent = current.slice(0, j++);
+                if (j > current.length) { isDeleting = true; setTimeout(typeEffect, 2000); return; }
+            } else {
+                el.textContent = current.slice(0, j--);
+                if (j < 0) { isDeleting = false; j = 0; i = (i + 1) % texts.length; }
+            }
+            setTimeout(typeEffect, isDeleting ? 30 : 80);
+        }
+        typeEffect();
+        // 加载时间
+        document.getElementById('loadTime').textContent = performance.now().toFixed(0);
+    </script>
+</body>
+</html>
